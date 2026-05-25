@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='No encontrado')}"></head>
+<body style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--color-surface-container-lowest)">
+  <div style="text-align:center;padding:48px 24px;max-width:520px">
+    <div style="font-size:96px;font-weight:800;background:linear-gradient(135deg,#4648d4,#b4136d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:16px">404</div>
+    <h1 class="headline-md" style="margin-bottom:16px" th:text="${title != null} ? ${title} + ' no encontrado' : 'Página no encontrada'">No encontrado</h1>
+    <p class="body-lg text-muted" style="margin-bottom:40px">Lo sentimos, el recurso que buscas no existe o fue eliminado.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="/" class="btn btn--gradient btn--lg">
+        <span class="material-symbols-outlined">home</span> Ir al inicio
+      </a>
+      <a href="/admin" class="btn btn--outline btn--lg">Panel Admin</a>
+    </div>
+  </div>
+</body>
+</html>

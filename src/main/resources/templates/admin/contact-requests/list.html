@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='Solicitudes — Admin')}"></head>
+<body>
+<header style="position:fixed;top:0;width:100%;z-index:50;background:rgba(250,248,255,0.90);backdrop-filter:blur(12px);border-bottom:1px solid rgba(199,196,215,0.30);height:72px">
+  <div style="max-width:1280px;margin:0 auto;padding:0 80px;height:100%;display:flex;align-items:center;justify-content:space-between">
+    <a href="/"><img src="/static/img/logo.png" alt="Ecuador Comparte" style="height:52px;width:auto;object-fit:contain"/></a>
+    <form th:action="@{/logout}" method="post"><button type="submit" style="background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--color-on-surface-variant);font-family:inherit;display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:20px">logout</span>Cerrar sesión</button></form>
+  </div>
+</header>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <a href="/admin" class="sidebar__link"><span class="material-symbols-outlined">dashboard</span>Resumen</a>
+    <a href="/news" class="sidebar__link"><span class="material-symbols-outlined">newspaper</span>Noticias</a>
+    <a href="/testimonials" class="sidebar__link"><span class="material-symbols-outlined">star</span>Testimonios</a>
+    <a href="/contact-requests" class="sidebar__link sidebar__link--active"><span class="material-symbols-outlined">mail</span>Solicitudes</a>
+    <a href="/admins" class="sidebar__link"><span class="material-symbols-outlined">manage_accounts</span>Administradores</a>
+
+  </aside>
+  <main class="admin-main">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px">
+      <div><h1 class="headline-md" style="margin-bottom:4px">Solicitudes de Contacto</h1><p class="text-muted">Mensajes y consultas enviadas desde el formulario público.</p></div>
+    </div>
+
+    <!-- FILTROS POR PROPÓSITO -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px">
+      <a th:href="@{/contact-requests}" th:class="${selectedPurpose == null} ? 'btn btn--gradient btn--sm' : 'btn btn--outline btn--sm'">Todos</a>
+      <a th:each="p : ${purposes}"
+         th:href="@{/contact-requests(purpose=${p.name()})}"
+         th:class="${p == selectedPurpose} ? 'btn btn--gradient btn--sm' : 'btn btn--outline btn--sm'"
+         th:text="${p.displayName}">Propósito</a>
+    </div>
+
+    <div class="glass-card" style="overflow:hidden;box-shadow:var(--shadow-sm)">
+      <div style="padding:20px 32px;border-bottom:1px solid rgba(199,196,215,0.30);display:flex;justify-content:space-between;align-items:center">
+        <span class="headline-sm">Lista de Solicitudes</span>
+        <span class="badge badge--primary" th:text="${contactRequests.size()} + ' solicitudes'">0 solicitudes</span>
+      </div>
+      <div class="table-wrap">
+        <table class="ec-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Propósito</th>
+              <th>Fecha</th>
+              <th style="text-align:right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="cr : ${contactRequests}">
+              <td style="font-weight:600" th:text="${cr.name}">Nombre</td>
+              <td><a th:href="'mailto:' + ${cr.email}" style="color:var(--color-primary);text-decoration:none" th:text="${cr.email}">email</a></td>
+              <td th:text="${cr.phoneNumber}">Teléfono</td>
+              <td>
+                <span class="badge"
+                  th:class="${cr.purpose.name() == 'PROGRAMA_EDIFICA'} ? 'badge badge--blue' : (${cr.purpose.name() == 'SHOWS_Y_CONFERENCIAS'} ? 'badge badge--primary' : 'badge badge--green')"
+                  th:text="${cr.purpose.displayName}">Propósito</span>
+              </td>
+              <td class="text-muted" th:text="${#temporals.format(cr.createDate,'dd/MM/yyyy HH:mm')}">Fecha</td>
+              <td style="text-align:right">
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <a th:href="@{/contact-requests/{id}(id=${cr.id})}" class="btn btn--outline btn--sm">Ver</a>
+                  <a th:href="@{/contact-requests/delete/{id}(id=${cr.id})}" class="btn btn--danger btn--sm"><svg th:replace="fragments/icons :: delete"></svg> Eliminar</a>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${contactRequests.isEmpty()}">
+              <td colspan="6" style="text-align:center;padding:48px;color:var(--color-on-surface-variant)">No hay solicitudes registradas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

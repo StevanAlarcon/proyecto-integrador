@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='Administradores')}"></head>
+<body>
+<header style="position:fixed;top:0;width:100%;z-index:50;background:rgba(250,248,255,0.90);backdrop-filter:blur(12px);border-bottom:1px solid rgba(199,196,215,0.30);height:72px">
+  <div style="max-width:1280px;margin:0 auto;padding:0 80px;height:100%;display:flex;align-items:center;justify-content:space-between">
+    <a href="/"><img src="/static/img/logo.png" alt="Ecuador Comparte" style="height:52px;width:auto;object-fit:contain"/></a>
+    <form th:action="@{/logout}" method="post"><button type="submit" style="background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--color-on-surface-variant);font-family:inherit;display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:20px">logout</span>Cerrar sesión</button></form>
+  </div>
+</header>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <a href="/admin" class="sidebar__link"><span class="material-symbols-outlined">dashboard</span>Resumen</a>
+    <a href="/news" class="sidebar__link"><span class="material-symbols-outlined">newspaper</span>Noticias</a>
+    <a href="/testimonials" class="sidebar__link"><span class="material-symbols-outlined">star</span>Testimonios</a>
+    <a href="/contact-requests" class="sidebar__link"><span class="material-symbols-outlined">mail</span>Solicitudes</a>
+    <a href="/admins" class="sidebar__link sidebar__link--active"><span class="material-symbols-outlined">manage_accounts</span>Administradores</a>
+
+  </aside>
+  <main class="admin-main">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px">
+      <div><h1 class="headline-md" style="margin-bottom:4px">Administradores</h1><p class="text-muted">Gestiona los usuarios con acceso al panel de control.</p></div>
+      <a href="/admins/create" class="btn btn--gradient"><span class="material-symbols-outlined">person_add</span>Nuevo Admin</a>
+    </div>
+    <div class="glass-card" style="overflow:hidden;box-shadow:var(--shadow-sm)">
+      <div style="padding:20px 32px;border-bottom:1px solid rgba(199,196,215,0.30);display:flex;justify-content:space-between;align-items:center">
+        <span class="headline-sm">Lista de Administradores</span>
+        <span class="badge badge--primary" th:text="${admins.size()} + ' admins'">0 admins</span>
+      </div>
+      <div class="table-wrap">
+        <table class="ec-table">
+          <thead><tr><th>Nombre</th><th>Apellido</th><th>Email</th><th style="text-align:right">Acciones</th></tr></thead>
+          <tbody>
+            <tr th:each="a : ${admins}">
+              <td>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:36px;height:36px;border-radius:50%;background:var(--gradient-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:white;flex-shrink:0"
+                       th:text="${#strings.substring(a.name,0,1)}">?</div>
+                  <span style="font-weight:600" th:text="${a.name}">Nombre</span>
+                </div>
+              </td>
+              <td th:text="${a.surname}">Apellido</td>
+              <td><a th:href="'mailto:' + ${a.email}" style="color:var(--color-primary);text-decoration:none" th:text="${a.email}">email</a></td>
+              <td style="text-align:right">
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <a th:href="@{/admins/edit/{id}(id=${a.adminId})}" class="btn btn--primary btn--sm"><svg th:replace="fragments/icons :: edit"></svg> Editar</a>
+                  <a th:href="@{/admins/delete/{id}(id=${a.adminId})}" class="btn btn--danger btn--sm"><svg th:replace="fragments/icons :: delete"></svg> Eliminar</a>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${admins.isEmpty()}">
+              <td colspan="4" style="text-align:center;padding:48px;color:var(--color-on-surface-variant)">No hay administradores registrados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

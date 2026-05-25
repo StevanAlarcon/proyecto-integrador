@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='Programa EDIFICA')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main style="padding-top:72px">
+
+  <!-- HERO -->
+  <section style="position:relative;height:600px;display:flex;align-items:center;overflow:hidden;background:var(--color-surface-container-lowest)">
+    <div style="position:absolute;inset:0;z-index:0">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=80"
+           alt="Construcción comunitaria" style="width:100%;height:100%;object-fit:cover;opacity:0.20"/>
+    </div>
+    <div class="container" style="position:relative;z-index:10">
+      <div style="max-width:680px">
+        <div class="hero__badge">
+          <span class="material-symbols-outlined" style="font-size:16px">verified</span>
+          Impacto Nacional
+        </div>
+        <h1 class="display-lg" style="margin-bottom:24px;margin-top:16px">Construyendo el Futuro Social de Ecuador</h1>
+        <p class="body-lg text-muted" style="margin-bottom:40px;line-height:1.7">
+          Programa EDIFICA es una iniciativa integral dedicada a transformar la infraestructura social y educativa de las comunidades más vulnerables, sembrando las bases de una nación próspera y equitativa.
+        </p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <a href="#mapa" class="btn btn--gradient btn--lg">
+            <span class="material-symbols-outlined">map</span> Ver Mapa de Impacto
+          </a>
+          <a href="#formulario" class="btn btn--outline btn--lg">Sumarse Ahora</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA DE IMPACTO -->
+  <section id="mapa" class="section section--low">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:16px">
+        <h2 class="headline-lg">Nuestra Huella en Ecuador</h2>
+      </div>
+      <div class="divider"></div>
+
+      <div style="display:grid;grid-template-columns:4fr 8fr;gap:var(--spacing-gutter)">
+        <!-- STATS -->
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--primary">
+              <span class="material-symbols-outlined" style="font-size:28px">groups</span>
+            </div>
+            <div>
+              <div class="display-lg text-primary" style="font-size:48px;line-height:1">+250k</div>
+              <div class="stat-label">Vidas Impactadas Directamente</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--secondary">
+              <span class="material-symbols-outlined" style="font-size:28px">apartment</span>
+            </div>
+            <div>
+              <div class="display-lg text-secondary" style="font-size:48px;line-height:1">18</div>
+              <div class="stat-label">Provincias con Intervención</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon--tertiary">
+              <span class="material-symbols-outlined" style="font-size:28px">volunteer_activism</span>
+            </div>
+            <div>
+              <div class="display-lg text-tertiary" style="font-size:48px;line-height:1">1.2M</div>
+              <div class="stat-label">Horas de Voluntariado Solidario</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAPA INTERACTIVO -->
+        <div style="position:relative;min-height:500px;background:var(--color-surface);border-radius:1.5rem;padding:32px;border:1px solid rgba(199,196,215,0.20);overflow:hidden">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
+            <div>
+              <h3 class="headline-sm" style="margin-bottom:4px">Mapa de Proyectos</h3>
+              <p class="text-muted">Haz clic en una provincia para ver detalles</p>
+            </div>
+            <div style="display:flex;gap:8px">
+              <span class="badge badge--primary">Costa</span>
+              <span class="badge badge--red">Sierra</span>
+              <span class="badge badge--blue">Amazonía</span>
+            </div>
+          </div>
+
+          <div style="position:relative;width:100%;height:380px;display:flex;align-items:center;justify-content:center">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJUNmL11ouXBhsPFv8_D62sNgioWLymfyR70u_A-fSuQ5xCktlpcm-6FCuFcCQpwCWbz1YY6QkvSM1TpQtOHAZD60gL6XYVBOkbJxvhLC51In2C1FjLkivLag_K3ZDWY4-y45iTXk_OhgqEPO9DLAcu0Y6L-DVNM0rseg8gXwVlmfw978k0Zs81FjrlH3s2j9Aa0znd3YqeLD4y_5CgmknE7Dd57izO7bEDEDZ6_JN-JM24kIOCINhC_Htj1YJ65K1EEz-5SPofjw"
+                 alt="Mapa Ecuador" style="max-height:100%;max-width:100%;border-radius:var(--radius-lg);filter:drop-shadow(0 4px 16px rgba(0,0,0,0.10))"/>
+            <!-- Hotspots -->
+            <button class="map-hotspot map-hotspot--primary" style="top:55%;left:30%" onclick="showProvince('Guayas',42500,12,85)"></button>
+            <button class="map-hotspot map-hotspot--secondary" style="top:35%;left:40%" onclick="showProvince('Pichincha',38200,14,92)"></button>
+            <button class="map-hotspot map-hotspot--tertiary" style="top:65%;left:42%" onclick="showProvince('Azuay',18700,7,68)"></button>
+          </div>
+
+          <!-- Panel de provincia -->
+          <div id="provincePanel" class="glass-card" style="position:absolute;top:32px;right:32px;width:264px;padding:24px;box-shadow:var(--shadow-xl);transition:opacity 0.3s,transform 0.3s;opacity:0;transform:translateX(40px);pointer-events:none">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+              <h4 class="headline-sm text-primary" id="pName">Guayas</h4>
+              <button onclick="closeProvince()" style="background:none;border:none;cursor:pointer;color:var(--color-on-surface-variant)">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div>
+                <p class="label-sm text-muted" style="text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Beneficiarios</p>
+                <p class="headline-sm" id="pBenef">42,500</p>
+              </div>
+              <div>
+                <p class="label-sm text-muted" style="text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Proyectos Activos</p>
+                <p class="headline-sm" id="pProj">12</p>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px" class="label-sm">
+                  <span>Progreso Etapa 1</span>
+                  <span id="pPct">85%</span>
+                </div>
+                <div style="background:var(--color-surface-container);border-radius:999px;height:8px;overflow:hidden;margin-top:6px">
+                  <div id="pBar" style="background:var(--color-primary);height:100%;width:85%;border-radius:999px;transition:width 0.5s"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section id="formulario" class="section section--white">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center">
+        <!-- INFO -->
+        <div>
+          <h2 class="headline-lg" style="margin-bottom:24px">Forma parte del Cambio</h2>
+          <p class="body-lg text-muted" style="margin-bottom:40px">
+            Cada aporte cuenta. Ya sea como voluntario, socio estratégico o donante, tu participación en el Programa EDIFICA es fundamental para transformar realidades.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <div style="width:48px;height:48px;border-radius:50%;background:rgba(70,72,212,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <span class="material-symbols-outlined text-primary">check_circle</span>
+              </div>
+              <div>
+                <h4 class="label-lg" style="color:var(--color-on-surface);margin-bottom:4px">Transparencia Total</h4>
+                <p class="text-muted">Reportes trimestrales de avance y uso de recursos.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <div style="width:48px;height:48px;border-radius:50%;background:rgba(180,19,109,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <span class="material-symbols-outlined text-secondary">rocket_launch</span>
+              </div>
+              <div>
+                <h4 class="label-lg" style="color:var(--color-on-surface);margin-bottom:4px">Impacto Directo</h4>
+                <p class="text-muted">Llegamos a las zonas más apartadas del territorio nacional.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <div style="width:48px;height:48px;border-radius:50%;background:rgba(0,88,190,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <span class="material-symbols-outlined text-tertiary">groups</span>
+              </div>
+              <div>
+                <h4 class="label-lg" style="color:var(--color-on-surface);margin-bottom:4px">Red Colaborativa</h4>
+                <p class="text-muted">Conectamos voluntarios, empresas y comunidades en todo el país.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM — usa ContactRequest con purpose PROGRAMA_EDIFICA -->
+        <div class="form-card">
+          <h3 class="headline-sm" style="margin-bottom:28px">Solicitud de Participación</h3>
+          <div class="alert alert--success" th:if="${param.success}" style="margin-bottom:20px">
+            <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:6px">check_circle</span>
+            ¡Gracias! Un coordinador te contactará pronto.
+          </div>
+          <form action="/contact-requests/new" method="post">
+            <div class="form-group">
+              <label class="form-label" for="name">Nombre Completo *</label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Ej. Juan Pérez" required maxlength="50"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="phone">Teléfono *</label>
+                <input type="tel" id="phone" name="phoneNumber" class="form-input" placeholder="+593 9..." required maxlength="50"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Correo *</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="email@ejemplo.com" required maxlength="50"/>
+              </div>
+            </div>
+            <!-- Pre-select EDIFICA -->
+            <input type="hidden" name="purpose" value="PROGRAMA_EDIFICA"/>
+            <button type="submit" class="btn btn--gradient btn--full" style="margin-top:8px">
+              <span class="material-symbols-outlined">send</span>
+              Enviar Solicitud de Participación
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script>
+function showProvince(name, benef, proj, pct) {
+  document.getElementById('pName').textContent = name;
+  document.getElementById('pBenef').textContent = benef.toLocaleString();
+  document.getElementById('pProj').textContent = proj;
+  document.getElementById('pPct').textContent = pct + '%';
+  document.getElementById('pBar').style.width = pct + '%';
+  const p = document.getElementById('provincePanel');
+  p.style.opacity = '1'; p.style.transform = 'translateX(0)'; p.style.pointerEvents = 'auto';
+}
+function closeProvince() {
+  const p = document.getElementById('provincePanel');
+  p.style.opacity = '0'; p.style.transform = 'translateX(40px)'; p.style.pointerEvents = 'none';
+}
+</script>
+</body>
+</html>

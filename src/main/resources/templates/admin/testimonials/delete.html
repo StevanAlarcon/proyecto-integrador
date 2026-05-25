@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='Eliminar Testimonio')}"></head>
+<body>
+<header style="position:fixed;top:0;width:100%;z-index:50;background:rgba(250,248,255,0.90);backdrop-filter:blur(12px);border-bottom:1px solid rgba(199,196,215,0.30);height:72px">
+  <div style="max-width:1280px;margin:0 auto;padding:0 80px;height:100%;display:flex;align-items:center;justify-content:space-between">
+    <a href="/"><img src="/static/img/logo.png" alt="Ecuador Comparte" style="height:52px;width:auto;object-fit:contain"/></a>
+    <form th:action="@{/logout}" method="post"><button type="submit" style="background:none;border:none;cursor:pointer;font-size:14px;font-weight:600;color:var(--color-on-surface-variant);font-family:inherit;display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:20px">logout</span>Cerrar sesión</button></form>
+  </div>
+</header>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <a href="/admin" class="sidebar__link"><span class="material-symbols-outlined">dashboard</span>Resumen</a>
+    <a href="/news" class="sidebar__link"><span class="material-symbols-outlined">newspaper</span>Noticias</a>
+    <a href="/testimonials" class="sidebar__link sidebar__link--active"><span class="material-symbols-outlined">star</span>Testimonios</a>
+    <a href="/contact-requests" class="sidebar__link"><span class="material-symbols-outlined">mail</span>Solicitudes</a>
+    <a href="/admins" class="sidebar__link"><span class="material-symbols-outlined">manage_accounts</span>Administradores</a>
+
+  </aside>
+  <main class="admin-main">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+      <a href="/testimonials" class="btn btn--outline btn--sm"><span class="material-symbols-outlined">arrow_back</span>Volver</a>
+      <h1 class="headline-md">Eliminar Testimonio</h1>
+    </div>
+    <div class="form-card" style="max-width:520px;margin:0 auto">
+      <div style="text-align:center;margin-bottom:28px">
+        <img th:src="${testimonial.photoUrl}" th:alt="${testimonial.name}"
+             onerror="this.src='https://ui-avatars.com/api/?name=EC&background=4648d4&color=fff'"
+             style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:3px solid var(--color-error-container);margin-bottom:16px"/>
+        <h2 class="headline-sm" style="margin-bottom:6px" th:text="${testimonial.name}">Nombre</h2>
+        <p class="text-muted">¿Seguro que deseas eliminar este testimonio? Esta acción es irreversible.</p>
+      </div>
+      <form th:action="@{/testimonials/{id}(id=${testimonial.testimonialId})}" method="post" style="display:flex;gap:12px">
+        <input type="hidden" name="_method" value="DELETE"/>
+        <button type="submit" class="btn btn--danger btn--md" style="flex:1;justify-content:center">
+          <svg th:replace="fragments/icons :: delete"></svg> Eliminar
+        </button>
+        <a href="/testimonials" class="btn btn--outline btn--md" style="flex:1;text-align:center;justify-content:center">Cancelar</a>
+      </form>
+    </div>
+  </main>
+</div>
+</body>
+</html>

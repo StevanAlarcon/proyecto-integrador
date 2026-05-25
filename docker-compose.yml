@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: integrador-postgres
+    environment:
+      POSTGRES_DB: proyecto_integrador_correcto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - datos-postgres:/var/lib/postgresql/data
+    networks:
+      - integrador-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: integrador-api
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/proyecto_integrador_correcto
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - integrador-net
+
+volumes:
+  datos-postgres:
+
+networks:
+  integrador-net:

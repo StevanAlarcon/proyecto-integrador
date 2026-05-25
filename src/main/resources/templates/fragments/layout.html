@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:th-fragment="http://www.thymeleaf.org">
+<head>
+  <!--/* NAV FRAGMENT */-->
+  <nav th:fragment="navbar" class="ec-nav">
+    <div class="ec-nav__inner">
+      <a href="/" class="ec-nav__logo">
+        <img src="/static/img/logo-ecuador.png" alt="Logo" class="ec-nav__logo-img" />
+      </a>
+      <div class="ec-nav__links">
+        <a href="/" class="ec-nav__link">Inicio</a>
+        <div class="ec-nav__dropdown">
+          <button class="ec-nav__link ec-nav__link--dropdown">
+            Programas <span class="material-symbols-outlined">expand_more</span>
+          </button>
+          <div class="ec-nav__menu">
+            <a href="/pages/edifica" class="ec-nav__menu-item">Edifica</a>
+            <a href="/pages/shows" class="ec-nav__menu-item">Shows y Conferencias</a>
+          </div>
+        </div>
+        <div class="ec-nav__dropdown">
+          <button class="ec-nav__link ec-nav__link--dropdown">
+            Actualidad <span class="material-symbols-outlined">expand_more</span>
+          </button>
+          <div class="ec-nav__menu">
+            <a href="/news/public" class="ec-nav__menu-item">Noticias</a>
+          </div>
+        </div>
+        <a href="/contacto" class="ec-nav__link">Contáctanos</a>
+      </div>
+    </div>
+  </nav>
+
+  <!--/* FOOTER FRAGMENT */-->
+  <footer th:fragment="footer" class="footer footer--gradient">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <img src="/static/img/logo-ecuador.png" alt="Logo" class="footer__logo-img" />
+          <p class="footer__brand-desc footer__brand-desc--white">Comprometidos con el desarrollo integral y el progreso sostenible de nuestra nación.</p>
+          <div class="footer__social">
+            <a href="#" class="footer__social-btn footer__social-btn--dark"><svg th:replace="fragments/icons :: facebook"></svg></a>
+            <a href="#" class="footer__social-btn footer__social-btn--dark"><svg th:replace="fragments/icons :: instagram"></svg></a>
+            <a href="#" class="footer__social-btn footer__social-btn--dark"><svg th:replace="fragments/icons :: facebook"></svg></a>
+          </div>
+        </div>
+        <div>
+          <h5 class="footer__heading footer__heading--white">Navegación</h5>
+          <ul class="footer__links">
+            <li><a href="/" class="footer__link footer__link--white">Inicio</a></li>
+            <li><a href="/pages/edifica" class="footer__link footer__link--white">Programa EDIFICA</a></li>
+            <li><a href="/pages/shows" class="footer__link footer__link--white">Shows y Conferencias</a></li>
+            <li><a href="/news/public" class="footer__link footer__link--white">Noticias</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 class="footer__heading footer__heading--white">Institucional</h5>
+          <ul class="footer__links">
+            <li><a href="/contacto" class="footer__link footer__link--white">Contáctanos</a></li>
+            <li><a href="http://latinoamericacomparte.org" target="_blank" class="footer__link footer__link--white footer__link--accent">Latinoamérica Comparte</a></li>
+            <li><a href="#" class="footer__link footer__link--white">Política de Privacidad</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5 class="footer__heading footer__heading--white">Contacto</h5>
+          <ul class="footer__links">
+            <li class="footer__link footer__link--white">
+              <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">location_on</span>
+              Quito, Ecuador
+            </li>
+            <li class="footer__link footer__link--white">
+              <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">phone</span>
+              +593 2 123 4567
+            </li>
+            <li><a href="mailto:info@ecuadorcomparte.org" class="footer__link footer__link--white">info@ecuadorcomparte.org</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright footer__copyright--white">© 2024 Todos los derechos reservados.</p>
+        <div style="display:flex;gap:24px">
+          <a href="#" class="footer__link footer__link--white">Política de Privacidad</a>
+          <a href="#" class="footer__link footer__link--white">Términos de Servicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!--/* HEAD FRAGMENT */-->
+  <head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle} + ' | Ecuador Comparte'">Ecuador Comparte</title>
+    <link rel="icon" type="image/x-icon" href="/static/img/logo-ecuador.ico"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/css/styles.css"/>
+  </head>
+
+  <!--/* ADMIN HEAD FRAGMENT */-->
+  <head th:fragment="admin-head(pageTitle)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle} + ' | Admin — Ecuador Comparte'">Admin</title>
+    <link rel="icon" type="image/x-icon" href="/static/img/logo-ecuador.ico"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  </head>
+<body></body>
+</html>

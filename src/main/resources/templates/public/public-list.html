@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='Noticias')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main style="padding-top:136px;padding-bottom:var(--spacing-section-padding)">
+  <div class="container">
+
+    <!-- HERO TITLE -->
+    <div style="margin-bottom:48px">
+      <span class="label-sm text-secondary" style="text-transform:uppercase;letter-spacing:0.2em;display:block;margin-bottom:16px">Actualidad y Impacto</span>
+      <h1 class="display-lg" style="margin-bottom:24px">Noticias del Ecuador</h1>
+      <p class="body-lg text-muted" style="max-width:600px">Descubre las historias, avances y programas que están transformando la realidad social y de infraestructura en cada rincón del país.</p>
+    </div>
+
+    <!-- BENTO FEATURED + SIDE -->
+    <div th:if="${newsList != null and !newsList.isEmpty()}">
+      <div style="display:grid;grid-template-columns:8fr 4fr;gap:var(--spacing-gutter);margin-bottom:var(--spacing-gutter)" th:if="${newsList.size() >= 1}">
+
+        <!-- Featured Article -->
+        <article class="card" style="cursor:pointer" th:with="featured=${newsList[0]}">
+          <div style="position:relative;height:480px;overflow:hidden">
+            <img th:src="${featured.imageUrl}" th:alt="${featured.title}"
+                 onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80'"
+                 style="width:100%;height:100%;object-fit:cover;transition:transform 0.7s"/>
+            <div style="position:absolute;top:24px;left:24px">
+              <span class="card__tag tag--pill-primary">INFRAESTRUCTURA</span>
+            </div>
+          </div>
+          <div class="card__body">
+            <div style="display:flex;align-items:center;gap:20px;margin-bottom:16px" class="card__meta">
+              <span><span class="material-symbols-outlined" style="font-size:16px">calendar_today</span> <span th:text="${#temporals.format(featured.publishDate,'dd MMM, yyyy')}">Fecha</span></span>
+              <span><span class="material-symbols-outlined" style="font-size:16px">person</span> <span th:text="${featured.author}">Autor</span></span>
+            </div>
+            <h2 class="headline-md" style="margin-bottom:12px;transition:color 0.2s" th:text="${featured.title}">Título principal</h2>
+            <p class="text-muted" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" th:text="${featured.summary}">Resumen</p>
+            <div style="margin-top:20px">
+              <a th:href="@{/news/public/{id}(id=${featured.id})}" class="btn btn--gradient btn--md">
+                Leer más <span class="material-symbols-outlined">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Side articles -->
+        <div style="display:flex;flex-direction:column;gap:var(--spacing-gutter)">
+          <article class="card" style="flex:1;cursor:pointer" th:if="${newsList.size() >= 2}" th:with="side1=${newsList[1]}">
+            <div class="card__body">
+              <span class="card__tag tag--secondary label-sm" style="display:block;margin-bottom:12px">SOCIAL</span>
+              <h3 class="headline-sm" style="margin-bottom:8px;transition:color 0.2s" th:text="${side1.title}">Título</h3>
+              <p class="text-muted" style="font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" th:text="${side1.summary}">Resumen</p>
+              <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(199,196,215,0.15)" class="card__meta" th:text="${#temporals.format(side1.publishDate,'dd MMM, yyyy')}">Fecha</div>
+              <a th:href="@{/news/public/{id}(id=${side1.id})}" class="card__link" style="margin-top:8px;font-size:13px">Leer más <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></a>
+            </div>
+          </article>
+          <article class="card" style="flex:1;cursor:pointer" th:if="${newsList.size() >= 3}" th:with="side2=${newsList[2]}">
+            <div class="card__body">
+              <span class="card__tag tag--tertiary label-sm" style="display:block;margin-bottom:12px">EDUCACIÓN</span>
+              <h3 class="headline-sm" style="margin-bottom:8px;transition:color 0.2s" th:text="${side2.title}">Título</h3>
+              <p class="text-muted" style="font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" th:text="${side2.summary}">Resumen</p>
+              <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(199,196,215,0.15)" class="card__meta" th:text="${#temporals.format(side2.publishDate,'dd MMM, yyyy')}">Fecha</div>
+              <a th:href="@{/news/public/{id}(id=${side2.id})}" class="card__link" style="margin-top:8px;font-size:13px">Leer más <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- GRID FEED (from item 3 onwards) -->
+      <div class="grid-3" th:if="${newsList.size() > 3}">
+        <article class="card" th:each="item,stat : ${newsList}" th:if="${stat.index >= 3}">
+          <div class="card__img-wrap">
+            <img class="card__img" th:src="${item.imageUrl}" th:alt="${item.title}"
+                 onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80'"/>
+          </div>
+          <div class="card__body">
+            <div class="flex-between" style="margin-bottom:16px">
+              <span class="card__tag tag--primary">Noticias</span>
+              <span class="card__meta" th:text="${#temporals.format(item.publishDate,'dd MMM')}">Fecha</span>
+            </div>
+            <h4 class="card__title" th:text="${item.title}">Título</h4>
+            <p class="card__text" th:text="${item.summary}">Resumen</p>
+            <div class="card__footer">
+              <a th:href="@{/news/public/{id}(id=${item.id})}" class="card__link">
+                Leer más <span class="material-symbols-outlined">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div th:if="${newsList == null or newsList.isEmpty()}" style="text-align:center;padding:120px 0;color:var(--color-on-surface-variant)">
+      <span class="material-symbols-outlined" style="font-size:72px;opacity:0.25">newspaper</span>
+      <h3 class="headline-sm" style="margin-top:20px;margin-bottom:8px">No hay noticias publicadas</h3>
+      <p class="text-muted">Vuelve pronto, estaremos publicando novedades.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

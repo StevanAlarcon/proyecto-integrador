@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(pageTitle='Contáctanos')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main style="padding-top:72px">
+  <!-- HERO SECTION -->
+  <section style="background:linear-gradient(135deg,#4648d4 0%,#b4136d 100%);padding:80px 0 60px;color:white;text-align:center">
+    <div class="container">
+      <span style="display:inline-block;background:rgba(255,255,255,0.15);padding:6px 20px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px">Estamos aquí para ti</span>
+      <h1 class="display-lg" style="margin-bottom:20px;color:white">Contáctanos</h1>
+      <p class="body-lg" style="opacity:0.90;max-width:560px;margin:0 auto">Cuéntanos cómo podemos colaborar. Selecciona el área de interés y nuestro equipo se pondrá en contacto contigo.</p>
+    </div>
+  </section>
+
+  <!-- FORM + INFO -->
+  <section class="section section--white">
+    <div class="container">
+
+      <!-- Alerta de éxito -->
+      <div class="alert alert--success" th:if="${param.success}" style="max-width:700px;margin:0 auto 32px">
+        <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:8px">check_circle</span>
+        ¡Tu solicitud fue enviada exitosamente! Nos pondremos en contacto pronto.
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start">
+        <!-- INFO -->
+        <div>
+          <h2 class="headline-md" style="margin-bottom:20px">¿En qué podemos ayudarte?</h2>
+          <p class="body-lg text-muted" style="margin-bottom:40px">Cada solicitud es atendida personalmente por nuestro equipo. Selecciona el propósito de tu mensaje y te daremos la mejor orientación.</p>
+
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <div style="width:48px;height:48px;background:rgba(70,72,212,0.10);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <span class="material-symbols-outlined text-primary">build</span>
+              </div>
+              <div>
+                <h4 class="label-lg" style="color:var(--color-on-surface);margin-bottom:4px">Servicios</h4>
+                <p class="text-muted">Consultas sobre nuestros servicios comunitarios y sociales.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <div style="width:48px;height:48px;background:rgba(70,72,212,0.10);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <span class="material-symbols-outlined text-primary">apartment</span>
+              </div>
+              <div>
+                <h4 class="label-lg" style="color:var(--color-on-surface);margin-bottom:4px">Programa EDIFICA</h4>
+                <p class="text-muted">Información sobre proyectos de infraestructura y vivienda.</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;align-items:flex-start">
+              <div style="width:48px;height:48px;background:rgba(70,72,212,0.10);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <span class="material-symbols-outlined text-primary">event</span>
+              </div>
+              <div>
+                <h4 class="label-lg" style="color:var(--color-on-surface);margin-bottom:4px">Shows y Conferencias</h4>
+                <p class="text-muted">Consultas sobre eventos, talleres y conferencias próximas.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:48px;padding:24px;background:var(--color-surface-container-low);border-radius:var(--radius-xl)">
+            <p class="label-sm text-muted" style="margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em">Datos de contacto</p>
+            <p class="body-md" style="margin-bottom:4px"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">phone</span> +593 2 123 4567</p>
+            <p class="body-md"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">mail</span> info@ecuadorcomparte.org</p>
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="form-card">
+          <h3 class="headline-sm" style="margin-bottom:28px">Enviar mensaje</h3>
+          <form th:action="@{/contact-requests/new}" th:object="${contactRequest}" method="post">
+            <div class="form-group">
+              <label class="form-label" for="name">Nombre completo *</label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Ej. Juan Pérez" required maxlength="50"/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="email">Correo electrónico *</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="email@ejemplo.com" required maxlength="50"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="phoneNumber">Teléfono *</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="+593 9..." required maxlength="50"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="purpose">Propósito *</label>
+              <select id="purpose" name="purpose" class="form-input form-select" required>
+                <option value="">Selecciona una opción...</option>
+                <option th:each="p : ${purposes}" th:value="${p.name()}" th:text="${p.displayName}">Opción</option>
+              </select>
+            </div>
+            <!-- Hidden createDate handled by service -->
+            <button type="submit" class="btn btn--gradient btn--full" style="margin-top:8px">
+              <span class="material-symbols-outlined">send</span>
+              Enviar solicitud
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
